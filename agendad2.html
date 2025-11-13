@@ -1,0 +1,71 @@
+<script>
+// Pega a data de "hoje" em America/Sao_Paulo e soma N dias
+function getDataSaoPauloMais(dias) {
+  const agora = new Date();
+
+  // "2025-11-13, 18:23:45" no fuso America/Sao_Paulo
+  const spString = agora.toLocaleString('en-CA', {
+    timeZone: 'America/Sao_Paulo',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  });
+
+  const [dataParte] = spString.split(','); // "YYYY-MM-DD"
+  const [ano, mes, dia] = dataParte.split('-').map(Number);
+
+  // Cria uma data só com ano/mes/dia e soma os dias
+  const spDate = new Date(ano, mes - 1, dia + dias);
+
+  const y = spDate.getFullYear();
+  const m = String(spDate.getMonth() + 1).padStart(2, '0');
+  const d = String(spDate.getDate()).padStart(2, '0');
+
+  return { y, m, d, ymd: `${y}${m}${d}` };
+}
+
+// Data de hoje em UTC-3 + 2 dias
+const { ymd: data } = getDataSaoPauloMais(2);
+
+// Horário fixo: 08:00–09:00 em UTC-3
+// Em UTC isso é 11:00–12:00 → por isso o "Z" com 110000Z e 120000Z
+const inicioUTC = `${data}T110000Z`;
+const fimUTC    = `${data}T120000Z`;
+
+// Link do Google Calendar (bom pra Android / desktop)
+const googleURL = `https://calendar.google.com/calendar/u/0/r/eventedit?text=Agendamento&dates=${inicioUTC}/${fimUTC}&details=Agendamento+automático`;
+
+// Gera um .ics (bom pra iOS / Apple Calendar / Outlook)
+function gerarICS() {
+  const conteudoICS = `BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SUMMARY:Agendamento
+DTSTART:${inicioUTC}
+DTEND:${fimUTC}
+DESCRIPTION:Agendamento automático
+END:VEVENT
+END:VCALENDAR`;
+
+  const blob = new Blob([conteudoICS], { type: 'text/calendar;charset=utf-8' });
+  return URL.createObjectURL(blob);
+}
+
+// Detecta dispositivo
+const ua = navigator.userAgent;
+const isAndroid = /Android/i.test(ua);
+const isIOS = /iPhone|iPad|iPod/i.test(ua);
+
+// Decide o melhor destino
+if (isIOS) {
+  // iPhone / iPad → abre arquivo .ics (Apple Calendar)
+  window.location.href = gerarICS();
+} else {
+  // Android e desktop → Google Calendar
+  window.location.href = googleURL;
+}
+</script>
