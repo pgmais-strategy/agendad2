@@ -9,115 +9,84 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, sans-serif;
     }
 
     body {
       background: #f5f5f5;
-      color: #222;
       display: flex;
-      min-height: 100vh;
       justify-content: center;
       align-items: center;
-      padding: 16px;
+      padding: 0 16px;
+      min-height: 100vh;
     }
 
     .container {
-      background: #ffffff;
-      max-width: 480px;
+      background: #fff;
       width: 100%;
-      margin: 0 auto;
+      max-width: 520px;
+      padding: 28px 24px;
       border-radius: 12px;
-      padding: 24px 20px 28px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 8px 22px rgba(0,0,0,0.08);
       text-align: center;
     }
 
     .hero-image {
-      max-width: 160px;
       width: 100%;
-      margin: 0 auto 16px;
+      max-width: 260px; /* imagem maior */
       display: block;
+      margin: 0 auto 24px;
     }
 
-    h1 {
-      font-size: 1.25rem;
-      margin-bottom: 12px;
-      color: #111;
-    }
-
-    p.texto-central {
-      font-size: 0.98rem;
-      line-height: 1.5;
-      margin-bottom: 20px;
+    .texto-central {
+      font-size: 1.05rem;
+      line-height: 1.55;
+      color: #333;
+      margin-bottom: 28px;
     }
 
     #btn-agendar {
+      width: 100%;
       display: inline-block;
+      padding: 14px 32px;
+      background: #c4161c;
+      color: #fff;
       border: none;
-      border-radius: 999px;
-      padding: 12px 28px;
-      font-size: 1rem;
+      font-size: 1.15rem;
+      border-radius: 8px;
       font-weight: 600;
       cursor: pointer;
-      background: #c4161c; /* cor estilo banco */
-      color: #fff;
-      transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.2s ease;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: 0.15s ease;
     }
 
     #btn-agendar:active {
-      transform: translateY(1px) scale(0.99);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    }
-
-    #btn-agendar:disabled {
-      opacity: 0.7;
-      cursor: default;
-      box-shadow: none;
-    }
-
-    .click-info {
-      margin-top: 10px;
-      font-size: 0.8rem;
-      color: #666;
-    }
-
-    .click-info span {
-      font-weight: 600;
+      transform: scale(0.97);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- TROQUE o src pela imagem desejada -->
+    
+    <!-- TROQUE O SRC PELA SUA IMAGEM -->
     <img
-      src="https://gsvc.pgmais.com.br/comercial/RCS/Bradesco/AGENDA.PNG"
+      src="https://via.placeholder.com/500x140?text=BRADESCO"
       alt="BRADESCO"
       class="hero-image"
     />
 
-    <h1>Acordo de pagamento</h1>
-
     <p class="texto-central">
-      Você tem um acordo de pagamento com o BRADESCO.<br />
-      Clique no botão abaixo e programe um lembrete na agenda do celular.<br />
+      Você tem um acordo de pagamento com o BRADESCO.<br>
+      Clique no botão abaixo e programe um lembrete na agenda do celular.<br>
       Caso já tenha pago, desconsidere.
     </p>
 
     <button id="btn-agendar">Agendar lembrete</button>
-
-    <p class="click-info">
-      Cliques no botão: <span id="click-count">0</span>
-    </p>
   </div>
 
   <script>
-    // Contador de cliques
-    let clickCount = 0;
-    const btnAgendar = document.getElementById('btn-agendar');
-    const clickCountSpan = document.getElementById('click-count');
-
     // Pega a data de "hoje" em America/Sao_Paulo e soma N dias
     function getDataSaoPauloMais(dias) {
       const agora = new Date();
@@ -133,7 +102,7 @@
         hour12: false
       });
 
-      const [dataParte] = spString.split(','); // "YYYY-MM-DD"
+      const [dataParte] = spString.split(',');
       const [ano, mes, dia] = dataParte.split('-').map(Number);
 
       const spDate = new Date(ano, mes - 1, dia + dias);
@@ -142,36 +111,33 @@
       const m = String(spDate.getMonth() + 1).padStart(2, '0');
       const d = String(spDate.getDate()).padStart(2, '0');
 
-      return { y, m, d, ymd: `${y}${m}${d}` };
+      return { ymd: `${y}${m}${d}` };
     }
 
     // Data de hoje em UTC-3 + 2 dias
     const { ymd: data } = getDataSaoPauloMais(2);
 
-    // Horário fixo: 08:00–09:00 em UTC-3 → 11:00–12:00 UTC
+    // Horário fixo 08:00–09:00 UTC-3 → 11:00–12:00 UTC (Z)
     const inicioUTC = `${data}T110000Z`;
     const fimUTC    = `${data}T120000Z`;
 
-    const titulo   = encodeURIComponent('Agendamento teste');
+    const titulo   = encodeURIComponent('Agendamento');
     const detalhes = encodeURIComponent('Agendamento automático');
 
-    // URL web do Google Calendar (funciona em tudo)
     const googleURL =
       `https://calendar.google.com/calendar/render` +
       `?action=TEMPLATE&text=${titulo}&dates=${inicioUTC}%2F${fimUTC}&details=${detalhes}`;
 
-    // Intent pro app (Android + Chrome, se der certo)
     const googleIntentURL =
       `intent://calendar.google.com/calendar/render` +
       `?action=TEMPLATE&text=${titulo}&dates=${inicioUTC}%2F${fimUTC}&details=${detalhes}` +
       `#Intent;scheme=https;package=com.google.android.calendar;end`;
 
-    // .ics pra iOS / Outlook / Apple Calendar
     function gerarICS() {
       const conteudoICS = `BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
-SUMMARY:Agendamento teste
+SUMMARY:Agendamento
 DTSTART:${inicioUTC}
 DTEND:${fimUTC}
 DESCRIPTION:Agendamento automático
@@ -182,25 +148,17 @@ END:VCALENDAR`;
       return URL.createObjectURL(blob);
     }
 
-    // Detecta dispositivo
     const ua = navigator.userAgent;
     const isAndroid = /Android/i.test(ua);
     const isIOS = /iPhone|iPad|iPod/i.test(ua);
     const isChrome = /Chrome/i.test(ua);
 
-    btnAgendar.addEventListener('click', function () {
-      // soma 1 clique
-      clickCount++;
-      clickCountSpan.textContent = clickCount;
-
+    document.getElementById('btn-agendar').addEventListener('click', function () {
       if (isIOS) {
-        // iPhone / iPad → abre arquivo .ics
         window.location.href = gerarICS();
       } else if (isAndroid && isChrome) {
-        // Android + Chrome → tenta app via intent
         window.location.href = googleIntentURL;
       } else {
-        // Desktop, outros browsers, etc. → web
         window.location.href = googleURL;
       }
     });
