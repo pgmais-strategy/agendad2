@@ -1,3 +1,5 @@
+<button id="btn-agendar">Agendar</button>
+
 <script>
 // Pega a data de "hoje" em America/Sao_Paulo e soma N dias
 function getDataSaoPauloMais(dias) {
@@ -33,19 +35,21 @@ const { ymd: data } = getDataSaoPauloMais(2);
 const inicioUTC = `${data}T110000Z`;
 const fimUTC    = `${data}T120000Z`;
 
-// Dados do evento
 const titulo   = encodeURIComponent('Agendamento');
 const detalhes = encodeURIComponent('Agendamento automático');
 
-// URL web padrão do Google Calendar (fallback)
-const googleURL = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${titulo}&dates=${inicioUTC}%2F${fimUTC}&details=${detalhes}`;
+// URL web do Google Calendar (funciona em tudo)
+const googleURL =
+  `https://calendar.google.com/calendar/render` +
+  `?action=TEMPLATE&text=${titulo}&dates=${inicioUTC}%2F${fimUTC}&details=${detalhes}`;
 
-// Intent URL para tentar abrir o app do Google Calendar no Android (via Chrome)
+// Intent pro app (Android + Chrome, se der certo)
 const googleIntentURL =
-  `intent://calendar.google.com/calendar/render?action=TEMPLATE&text=${titulo}&dates=${inicioUTC}%2F${fimUTC}&details=${detalhes}` +
+  `intent://calendar.google.com/calendar/render` +
+  `?action=TEMPLATE&text=${titulo}&dates=${inicioUTC}%2F${fimUTC}&details=${detalhes}` +
   `#Intent;scheme=https;package=com.google.android.calendar;end`;
 
-// Gera um .ics (bom pra iOS / Apple Calendar / Outlook)
+// .ics pra iOS / Outlook / Apple Calendar
 function gerarICS() {
   const conteudoICS = `BEGIN:VCALENDAR
 VERSION:2.0
@@ -67,15 +71,17 @@ const isAndroid = /Android/i.test(ua);
 const isIOS = /iPhone|iPad|iPod/i.test(ua);
 const isChrome = /Chrome/i.test(ua);
 
-// Decide o melhor destino
-if (isIOS) {
-  // iPhone / iPad → abre arquivo .ics (Apple Calendar)
-  window.location.href = gerarICS();
-} else if (isAndroid && isChrome) {
-  // Android + Chrome → tenta abrir o app via intent://
-  window.location.href = googleIntentURL;
-} else {
-  // Fallback: abre Google Calendar no navegador
-  window.location.href = googleURL;
-}
+document.getElementById('btn-agendar').addEventListener('click', function () {
+  if (isIOS) {
+    // iPhone / iPad → abre arquivo .ics
+    window.location.href = gerarICS();
+  } else if (isAndroid && isChrome) {
+    // Android + Chrome → tenta app, se falhar fica no navegador
+    window.location.href = googleIntentURL;
+    // se o intent falhar, o Chrome normalmente cai pro navegador web
+  } else {
+    // Desktop, outros browsers, etc. → web
+    window.location.href = googleURL;
+  }
+});
 </script>
