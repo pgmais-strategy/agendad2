@@ -1,167 +1,134 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <title>Agendar lembrete</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", Roboto, sans-serif;
-    }
-
-    body {
-      background: #f5f5f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0 16px;
-      min-height: 100vh;
-    }
-
-    .container {
-      background: #fff;
-      width: 100%;
-      max-width: 520px;
-      padding: 28px 24px;
-      border-radius: 12px;
-      box-shadow: 0 8px 22px rgba(0,0,0,0.08);
-      text-align: center;
-    }
-
-    .hero-image {
-      width: 100%;
-      max-width: 260px; /* imagem maior */
-      display: block;
-      margin: 0 auto 24px;
-    }
-
-    .texto-central {
-      font-size: 1.05rem;
-      line-height: 1.55;
-      color: #333;
-      margin-bottom: 28px;
-    }
-
-    #btn-agendar {
-      width: 100%;
-      display: inline-block;
-      padding: 14px 32px;
-      background: #c4161c;
-      color: #fff;
-      border: none;
-      font-size: 1.15rem;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      transition: 0.15s ease;
-    }
-
-    #btn-agendar:active {
-      transform: scale(0.97);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
+<html amp lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <title>A Ilusão do Desconto</title>
+    <link rel="canonical" href="index.html">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
     
-    <!-- TROQUE O SRC PELA SUA IMAGEM -->
-    <img
-      src="https://gsvc.pgmais.com.br/comercial/RCS/Renner/jira16002.png"
-      alt="RENNER"
-      class="hero-image"
-    />
-
-    <p class="texto-central">
-      Você tem um acordo de pagamento com a RENNER.<br>
-      Clique no botão abaixo e programe um lembrete na agenda do celular.<br>
-      Caso já tenha pago, desconsidere.
-    </p>
-
-    <button id="btn-agendar">Agendar lembrete</button>
-  </div>
-
-  <script>
-    // Pega a data de "hoje" em America/Sao_Paulo e soma N dias
-    function getDataSaoPauloMais(dias) {
-      const agora = new Date();
-
-      const spString = agora.toLocaleString('en-CA', {
-        timeZone: 'America/Sao_Paulo',
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-      });
-
-      const [dataParte] = spString.split(',');
-      const [ano, mes, dia] = dataParte.split('-').map(Number);
-
-      const spDate = new Date(ano, mes - 1, dia + dias);
-
-      const y = spDate.getFullYear();
-      const m = String(spDate.getMonth() + 1).padStart(2, '0');
-      const d = String(spDate.getDate()).padStart(2, '0');
-
-      return { ymd: `${y}${m}${d}` };
-    }
-
-    // Data de hoje em UTC-3 + 2 dias
-    const { ymd: data } = getDataSaoPauloMais(2);
-
-    // Horário fixo 08:00–09:00 UTC-3 → 11:00–12:00 UTC (Z)
-    const inicioUTC = `${data}T110000Z`;
-    const fimUTC    = `${data}T120000Z`;
-
-    const titulo   = encodeURIComponent('Agendamento');
-    const detalhes = encodeURIComponent('Agendamento automático');
-
-    const googleURL =
-      `https://calendar.google.com/calendar/render` +
-      `?action=TEMPLATE&text=${titulo}&dates=${inicioUTC}%2F${fimUTC}&details=${detalhes}`;
-
-    const googleIntentURL =
-      `intent://calendar.google.com/calendar/render` +
-      `?action=TEMPLATE&text=${titulo}&dates=${inicioUTC}%2F${fimUTC}&details=${detalhes}` +
-      `#Intent;scheme=https;package=com.google.android.calendar;end`;
-
-    function gerarICS() {
-      const conteudoICS = `BEGIN:VCALENDAR
-VERSION:2.0
-BEGIN:VEVENT
-SUMMARY:Agendamento
-DTSTART:${inicioUTC}
-DTEND:${fimUTC}
-DESCRIPTION:Agendamento automático
-END:VEVENT
-END:VCALENDAR`;
-
-      const blob = new Blob([conteudoICS], { type: 'text/calendar;charset=utf-8' });
-      return URL.createObjectURL(blob);
-    }
-
-    const ua = navigator.userAgent;
-    const isAndroid = /Android/i.test(ua);
-    const isIOS = /iPhone|iPad|iPod/i.test(ua);
-    const isChrome = /Chrome/i.test(ua);
-
-    document.getElementById('btn-agendar').addEventListener('click', function () {
-      if (isIOS) {
-        window.location.href = gerarICS();
-      } else if (isAndroid && isChrome) {
-        window.location.href = googleIntentURL;
-      } else {
-        window.location.href = googleURL;
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <script async custom-element="amp-story" src="https://cdn.ampproject.org/v0/amp-story-1.0.js"></script>
+    
+    <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+    
+    <style amp-custom>
+      amp-story { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+      h1 { font-size: 2.2em; font-weight: bold; margin-bottom: 15px; color: white;}
+      p { font-size: 1.2em; line-height: 1.4; color: white; margin-bottom: 10px;}
+      .destaque { color: #4dc3ff; font-weight: bold; } /* Azul claro para destacar números */
+      .alerta { color: #ff6b6b; font-weight: bold; } /* Vermelho para prejuízo */
+      
+      .caixa-texto { 
+        background: rgba(0, 15, 30, 0.8); /* Fundo escuro azulado */
+        padding: 20px; 
+        border-radius: 12px;
+        margin-top: auto; 
+        margin-bottom: 15vh; /* Espaço maior embaixo para não cobrir o botão de link */
+        border-left: 5px solid #007bff; /* Detalhe azul na caixa */
       }
-    });
-  </script>
-</body>
+    </style>
+  </head>
+  <body>
+    <amp-story standalone 
+      title="A Ilusão do Desconto na Matrícula" 
+      publisher="Sua Instituição" 
+      publisher-logo-src="https://via.placeholder.com/150" 
+      poster-portrait-src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=400&h=700&fit=crop">
+      
+      <amp-story-page id="pagina-1">
+        <amp-story-grid-layer template="fill">
+          <amp-img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=400&h=700&fit=crop" 
+                   width="400" height="700" layout="responsive"></amp-img>
+        </amp-story-grid-layer>
+        <amp-story-grid-layer template="vertical">
+          <div class="caixa-texto" animate-in="fade-in">
+            <h1>Deixando acumular pra ter desconto? 🤔💸</h1>
+            <p>Sabe aquela estratégia de atrasar as mensalidades pra negociar um super desconto na rematrícula?</p>
+            <p>Vou te provar que você está <span class="alerta">perdendo dinheiro</span> com isso.</p>
+          </div>
+        </amp-story-grid-layer>
+        <amp-story-page-outlink layout="nodisplay">
+          <a href="https://seusite.com/financeiro">Falar com o Financeiro</a>
+        </amp-story-page-outlink>
+      </amp-story-page>
+
+      <amp-story-page id="pagina-2">
+        <amp-story-grid-layer template="fill">
+          <amp-img src="https://images.unsplash.com/photo-1606822453556-9e8c47b59e38?q=80&w=400&h=700&fit=crop" 
+                   width="400" height="700" layout="responsive"></amp-img>
+        </amp-story-grid-layer>
+        <amp-story-grid-layer template="vertical">
+          <div class="caixa-texto" animate-in="fly-in-left">
+            <h1>O "falso" desconto ❌</h1>
+            <p>A primeira coisa que acontece: você perde o seu desconto de incentivo por pagar em dia.</p>
+            <p>O tal "desconto" no final do semestre é dado <span class="destaque">apenas em cima dos juros</span> que geraram!</p>
+          </div>
+        </amp-story-grid-layer>
+        <amp-story-page-outlink layout="nodisplay">
+          <a href="https://seusite.com/financeiro">Entenda sua fatura</a>
+        </amp-story-page-outlink>
+      </amp-story-page>
+
+      <amp-story-page id="pagina-3">
+        <amp-story-grid-layer template="fill">
+          <amp-img src="https://images.unsplash.com/photo-1580519542036-ed471399ce45?q=80&w=400&h=700&fit=crop" 
+                   width="400" height="700" layout="responsive"></amp-img>
+        </amp-story-grid-layer>
+        <amp-story-grid-layer template="vertical">
+          <div class="caixa-texto" animate-in="fly-in-bottom">
+            <h1>Cenário 1: Pagando em dia ✅</h1>
+            <p>Valor base: R$ 150</p>
+            <p>Valor com desconto de incentivo: <span class="destaque">R$ 100</span></p>
+            <br>
+            <p>Total pago no semestre (6 meses):</p>
+            <h1>R$ 600</h1>
+          </div>
+        </amp-story-grid-layer>
+        <amp-story-page-outlink layout="nodisplay">
+          <a href="https://seusite.com/financeiro">Pagar em dia</a>
+        </amp-story-page-outlink>
+      </amp-story-page>
+
+      <amp-story-page id="pagina-4">
+        <amp-story-grid-layer template="fill">
+          <amp-img src="https://images.unsplash.com/photo-1628156170624-9cb39178f795?q=80&w=400&h=700&fit=crop" 
+                   width="400" height="700" layout="responsive"></amp-img>
+        </amp-story-grid-layer>
+        <amp-story-grid-layer template="vertical">
+          <div class="caixa-texto" animate-in="drop">
+            <h1>Cenário 2: Atrasando tudo 📈</h1>
+            <p>Você perde os R$ 50 de desconto mensais.</p>
+            <p>Dívida original (6x R$ 150): R$ 900</p>
+            <p>Com juros e multas vai para: <span class="alerta">R$ 1.050</span></p>
+            <br>
+            <p>Aí aplicam o "desconto" tirando o juros e você paga os mesmos <b>R$ 900</b>.</p>
+          </div>
+        </amp-story-grid-layer>
+        <amp-story-page-outlink layout="nodisplay">
+          <a href="https://seusite.com/financeiro">Evite juros</a>
+        </amp-story-page-outlink>
+      </amp-story-page>
+
+      <amp-story-page id="pagina-5">
+        <amp-story-grid-layer template="fill">
+          <amp-img src="https://images.unsplash.com/photo-1607863680198-23d4b2565df0?q=80&w=400&h=700&fit=crop" 
+                   width="400" height="700" layout="responsive"></amp-img>
+        </amp-story-grid-layer>
+        <amp-story-grid-layer template="vertical">
+          <div class="caixa-texto" animate-in="fly-in-bottom">
+            <h1>A Matemática não mente! 🚨</h1>
+            <p>Pagando em dia: R$ 600</p>
+            <p>Com o "desconto" atrasado: R$ 900</p>
+            <br>
+            <p>Prejuízo de <span class="alerta">R$ 300</span> saindo do seu bolso à toa.</p>
+            <p>Não caia nessa ilusão!</p>
+          </div>
+        </amp-story-grid-layer>
+        <amp-story-page-outlink layout="nodisplay">
+          <a href="https://seusite.com/financeiro">Simule sua parcela</a>
+        </amp-story-page-outlink>
+      </amp-story-page>
+
+    </amp-story>
+  </body>
 </html>
