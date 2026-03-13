@@ -2,9 +2,11 @@
 <html amp lang="pt-br">
   <head>
     <meta charset="utf-8">
-    <title>A Ilusão do Desconto</title>
+    <title>A Ilusão do Desconto - Estácio</title>
     <link rel="canonical" href="index.html">
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
     
     <script async src="https://cdn.ampproject.org/v0.js"></script>
     <script async custom-element="amp-story" src="https://cdn.ampproject.org/v0/amp-story-1.0.js"></script>
@@ -12,34 +14,105 @@
     <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
     
     <style amp-custom>
-      amp-story { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-      h1 { font-size: 2.2em; font-weight: bold; margin-bottom: 15px; color: white;}
-      p { font-size: 1.2em; line-height: 1.4; color: white; margin-bottom: 10px;}
-      .destaque { color: #4dc3ff; font-weight: bold; } /* Azul claro para destacar números */
-      .alerta { color: #ff6b6b; font-weight: bold; } /* Vermelho para prejuízo */
+      amp-story { font-family: 'Montserrat', sans-serif; }
       
-      .caixa-texto { 
-        background: rgba(0, 15, 30, 0.8); /* Fundo escuro azulado */
-        padding: 20px; 
-        border-radius: 12px;
-        margin-top: auto; 
-        margin-bottom: 15vh; /* Espaço maior embaixo para não cobrir o botão de link */
-        border-left: 5px solid #007bff; /* Detalhe azul na caixa */
+      h1 { font-size: 2.2em; font-weight: 800; margin-bottom: 15px; color: #FFFFFF;}
+      p { font-size: 1.2em; line-height: 1.4; color: #E0F4FF; margin-bottom: 10px; font-weight: 400;}
+      
+      .destaque { color: #4dc3ff; font-weight: 800; } 
+      .alerta { color: #A3D8F4; font-weight: 800; text-decoration: underline; } 
+      
+      .overlay-gradiente {
+        background: linear-gradient(to bottom, rgba(56, 162, 188, 0.6) 0%, rgba(10, 25, 45, 0.95) 100%);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
       }
+
+      .caixa-texto { 
+        background: transparent; 
+        padding: 24px; 
+        margin-top: auto; 
+        margin-bottom: 12vh; 
+        border-left: 6px solid #4dc3ff; 
+        z-index: 2; 
+        position: relative;
+      }
+
+      /* ESTILOS DO OVERLAY DE TUTORIAL (CAPA) */
+      .container-tutorial {
+        background: rgba(10, 25, 45, 0.92); /* Fundo azul marinho quase sólido */
+        backdrop-filter: blur(5px);
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        cursor: pointer;
+      }
+      .icone-tutorial {
+        font-size: 2.5em;
+        margin-bottom: 5px;
+        display: block;
+      }
+      .texto-tutorial {
+        font-size: 0.9em;
+        color: #E0F4FF;
+        font-weight: 700;
+        text-align: center;
+      }
+      .pos-esquerda { position: absolute; left: 15px; top: 45%; transform: translateY(-50%); width: 90px;}
+      .pos-direita { position: absolute; right: 15px; top: 45%; transform: translateY(-50%); width: 90px;}
+      .pos-cima { position: absolute; bottom: 8vh; left: 50%; transform: translateX(-50%); width: 140px;}
+      
+      @keyframes pulsar {
+        0% { transform: scale(1); opacity: 0.8; }
+        50% { transform: scale(1.05); opacity: 1; }
+        100% { transform: scale(1); opacity: 0.8; }
+      }
+      .btn-comecar {
+        position: absolute;
+        top: 10%; /* Ajuste a altura aqui se precisar */
+        left: 0;
+        right: 0;
+        margin: 0 auto; /* Esta é a mágica que centraliza perfeitamente */
+        background: #38A2BC;
+        border: 2px solid #4dc3ff;
+        padding: 12px 24px;
+        border-radius: 30px;
+        color: #FFF;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        animation: pulsar 2s infinite ease-in-out;
+        width: 220px;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(56, 162, 188, 0.5);
+        z-index: 10;
+      }
+	  
     </style>
   </head>
   <body>
     <amp-story standalone 
       title="A Ilusão do Desconto na Matrícula" 
-      publisher="Sua Instituição" 
-      publisher-logo-src="https://via.placeholder.com/150" 
-      poster-portrait-src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=400&h=700&fit=crop">
+      publisher="Estácio" 
+      publisher-logo-src="https://via.placeholder.com/150/38A2BC/FFFFFF?text=E" 
+      poster-portrait-src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=400&h=700&fit=crop">
       
       <amp-story-page id="pagina-1">
         <amp-story-grid-layer template="fill">
-          <amp-img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=400&h=700&fit=crop" 
-                   width="400" height="700" layout="responsive"></amp-img>
+          <amp-img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=400&h=700&fit=crop" 
+                   layout="fill"></amp-img>
+          <div class="overlay-gradiente"></div>
         </amp-story-grid-layer>
+        
         <amp-story-grid-layer template="vertical">
           <div class="caixa-texto" animate-in="fade-in">
             <h1>Deixando acumular pra ter desconto? 🤔💸</h1>
@@ -47,15 +120,39 @@
             <p>Vou te provar que você está <span class="alerta">perdendo dinheiro</span> com isso.</p>
           </div>
         </amp-story-grid-layer>
-        <amp-story-page-outlink layout="nodisplay">
-          <a href="https://seusite.com/financeiro">Falar com o Financeiro</a>
-        </amp-story-page-outlink>
+        
+        <amp-story-grid-layer template="fill" id="camada-tutorial">
+          <div class="container-tutorial" role="button" tabindex="0" on="tap:camada-tutorial.hide">
+            
+            <div class="btn-comecar">
+              Toque para começar
+            </div>
+
+            <div class="pos-esquerda">
+              <span class="icone-tutorial" style="text-align: center;">👈</span>
+              <p class="texto-tutorial">Toque na esquerda para voltar</p>
+            </div>
+            
+            <div class="pos-direita">
+              <span class="icone-tutorial" style="text-align: center;">👉</span>
+              <p class="texto-tutorial">Toque na direita para avançar</p>
+            </div>
+            
+            <div class="pos-cima">
+              <span class="icone-tutorial" style="text-align: center;">👆</span>
+              <p class="texto-tutorial">Arraste para cima para abrir links</p>
+            </div>
+
+          </div>
+        </amp-story-grid-layer>
+
       </amp-story-page>
 
       <amp-story-page id="pagina-2">
         <amp-story-grid-layer template="fill">
-          <amp-img src="https://images.unsplash.com/photo-1606822453556-9e8c47b59e38?q=80&w=400&h=700&fit=crop" 
-                   width="400" height="700" layout="responsive"></amp-img>
+          <amp-img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=400&h=700&fit=crop" 
+                   layout="fill"></amp-img>
+          <div class="overlay-gradiente"></div>
         </amp-story-grid-layer>
         <amp-story-grid-layer template="vertical">
           <div class="caixa-texto" animate-in="fly-in-left">
@@ -65,34 +162,36 @@
           </div>
         </amp-story-grid-layer>
         <amp-story-page-outlink layout="nodisplay">
-          <a href="https://seusite.com/financeiro">Entenda sua fatura</a>
+          <a href="https://sia.estacio.br/sianet/logon">Acesse sua mensalidade</a>
         </amp-story-page-outlink>
       </amp-story-page>
 
       <amp-story-page id="pagina-3">
         <amp-story-grid-layer template="fill">
-          <amp-img src="https://images.unsplash.com/photo-1580519542036-ed471399ce45?q=80&w=400&h=700&fit=crop" 
-                   width="400" height="700" layout="responsive"></amp-img>
+          <amp-img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=400&h=700&fit=crop" 
+                   layout="fill"></amp-img>
+          <div class="overlay-gradiente"></div>
         </amp-story-grid-layer>
         <amp-story-grid-layer template="vertical">
           <div class="caixa-texto" animate-in="fly-in-bottom">
             <h1>Cenário 1: Pagando em dia ✅</h1>
-            <p>Valor base: R$ 150</p>
+            <p>Valor base da mensalidade: R$ 150</p>
             <p>Valor com desconto de incentivo: <span class="destaque">R$ 100</span></p>
             <br>
             <p>Total pago no semestre (6 meses):</p>
-            <h1>R$ 600</h1>
+            <h1 style="color: #4dc3ff;">R$ 600</h1>
           </div>
         </amp-story-grid-layer>
         <amp-story-page-outlink layout="nodisplay">
-          <a href="https://seusite.com/financeiro">Pagar em dia</a>
+          <a href="https://sia.estacio.br/sianet/logon">Pagar em dia</a>
         </amp-story-page-outlink>
       </amp-story-page>
 
       <amp-story-page id="pagina-4">
         <amp-story-grid-layer template="fill">
-          <amp-img src="https://images.unsplash.com/photo-1628156170624-9cb39178f795?q=80&w=400&h=700&fit=crop" 
-                   width="400" height="700" layout="responsive"></amp-img>
+          <amp-img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=400&h=700&fit=crop" 
+                   layout="fill"></amp-img>
+          <div class="overlay-gradiente"></div>
         </amp-story-grid-layer>
         <amp-story-grid-layer template="vertical">
           <div class="caixa-texto" animate-in="drop">
@@ -105,27 +204,28 @@
           </div>
         </amp-story-grid-layer>
         <amp-story-page-outlink layout="nodisplay">
-          <a href="https://seusite.com/financeiro">Evite juros</a>
+          <a href="https://sia.estacio.br/sianet/logon">Evite juros</a>
         </amp-story-page-outlink>
       </amp-story-page>
 
       <amp-story-page id="pagina-5">
         <amp-story-grid-layer template="fill">
-          <amp-img src="https://images.unsplash.com/photo-1607863680198-23d4b2565df0?q=80&w=400&h=700&fit=crop" 
-                   width="400" height="700" layout="responsive"></amp-img>
+          <amp-img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=400&h=700&fit=crop" 
+                   layout="fill"></amp-img>
+          <div class="overlay-gradiente"></div>
         </amp-story-grid-layer>
         <amp-story-grid-layer template="vertical">
           <div class="caixa-texto" animate-in="fly-in-bottom">
             <h1>A Matemática não mente! 🚨</h1>
-            <p>Pagando em dia: R$ 600</p>
-            <p>Com o "desconto" atrasado: R$ 900</p>
+            <p>Pagando em dia: <span class="destaque">R$ 600</span></p>
+            <p>Com o "desconto" atrasado: <span class="alerta">R$ 900</span></p>
             <br>
             <p>Prejuízo de <span class="alerta">R$ 300</span> saindo do seu bolso à toa.</p>
-            <p>Não caia nessa ilusão!</p>
+            <p>Garanta seu desconto pagando no prazo!</p>
           </div>
         </amp-story-grid-layer>
         <amp-story-page-outlink layout="nodisplay">
-          <a href="https://seusite.com/financeiro">Simule sua parcela</a>
+          <a href="https://sia.estacio.br/sianet/logon">Garanta seu desconto</a>
         </amp-story-page-outlink>
       </amp-story-page>
 
